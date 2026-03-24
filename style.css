@@ -1,0 +1,169 @@
+/* ── Reset général ── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── AI ASSISTANCE ──────────────────────────────────────────────────
+   This part was made with the help of AI.
+   I asked the AI to explain how to define CSS variables (also called
+   custom properties) so that I could reuse the same colors everywhere
+   in the stylesheet without repeating the hex codes each time.
+   ─────────────────────────────────────────────────────────────────── */
+:root {
+  --red:    #e63946;
+  --dark:   #1a1a2e;
+  --light:  #f5f5f0;
+  --grey:   #666;
+  --border: #ddd;
+}
+
+body {
+  font-family: Georgia, 'Times New Roman', serif;
+  background: var(--light);
+  color: var(--dark);
+}
+
+/* ══════════════════════════════
+   NAVBAR
+══════════════════════════════ */
+nav {
+  background: white;
+  border-bottom: 1px solid var(--border);
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-logo {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--dark);
+  letter-spacing: 1px;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  list-style: none;
+}
+
+.nav-links li a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: Arial, sans-serif;
+  font-size: 0.85rem;
+  color: var(--dark);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-links li a:hover {
+  color: var(--red);
+}
+
+.nav-lang {
+  display: flex;
+  gap: 6px;
+  font-family: Arial, sans-serif;
+  font-size: 0.8rem;
+}
+
+.nav-lang span {
+  cursor: pointer;
+  padding: 3px 7px;
+  border-radius: 3px;
+}
+
+.nav-lang span.active-lang {
+  background: var(--dark);
+  color: white;
+}
+
+/* ══════════════════════════════
+   SECTION HÉRO
+══════════════════════════════ */
+.hero {
+  text-align: center;
+  padding: 30px 20px 10px;
+}
+
+.geo-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: Arial, sans-serif;
+  font-size: 0.85rem;
+  color: var(--grey);
+  margin-bottom: 16px;
+}
+
+.geo-line .pin {
+  font-size: 1.1rem;
+  color: var(--red);
+}
+
+.section-title {
+  font-size: 2.4rem;
+  color: var(--red);
+  font-style: italic;
+  margin-bottom: 30px;
+}
+
+/* ══════════════════════════════
+   GRILLE DES SPECTACLES
+══════════════════════════════ */
+
+/* ── AI ASSISTANCE ──────────────────────────────────────────────────
+   This part was made with the help of AI.
+   I asked the AI how to create a 3-column grid layout using CSS Grid
+   so that the show posters are automatically distributed into 3 equal
+   columns, with consistent spacing (gap) between them.
+   ─────────────────────────────────────────────────────────────────── */
+.shows-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px 50px;
+}
+
+.show-card {
+  text-align: center;
+  text-decoration: none;
+  color: var(--dark);
+  display: block;
+  transition: transform 0.2s;
+}
+
+.show-card:hover {
+  transform: translateY(-4px);
+}
+
+.show-card img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  display: block;
+}
+
+.show-card .show-name {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  color: var(--dark);
+}
