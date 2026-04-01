@@ -4,26 +4,501 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>London Theatre</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Reset & variables ── */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── AI ASSISTANCE ──────────────────────────────────────────────────
+       This part was made with the help of AI.
+       I asked the AI to explain how to define CSS variables (also called
+       custom properties) so that I could reuse the same colors everywhere
+       in the stylesheet without repeating the hex codes each time.
+       ─────────────────────────────────────────────────────────────────── */
+    :root {
+      --red:    #e63946;
+      --dark:   #1a1a2e;
+      --light:  #f5f5f0;
+      --grey:   #666;
+      --border: #ddd;
+    }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      background: var(--light);
+      color: var(--dark);
+    }
+
+    /* ── Views (show/hide) ── */
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* ══════════════════════════════
+       NAVBAR
+    ══════════════════════════════ */
+    nav {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: var(--dark);
+      cursor: pointer;
+      letter-spacing: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links li {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: Arial, sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+      color: var(--dark);
+      transition: color 0.2s;
+    }
+
+    .nav-links li:hover { color: var(--red); }
+
+    .nav-links .icon { font-size: 1rem; }
+
+    .nav-lang {
+      display: flex;
+      gap: 6px;
+      font-family: Arial, sans-serif;
+      font-size: 0.8rem;
+    }
+
+    .nav-lang span {
+      cursor: pointer;
+      padding: 3px 7px;
+      border-radius: 3px;
+    }
+
+    .nav-lang span.active-lang {
+      background: var(--dark);
+      color: white;
+    }
+
+    /* ══════════════════════════════
+       PAGE ACCUEIL
+    ══════════════════════════════ */
+    .hero {
+      text-align: center;
+      padding: 30px 20px 10px;
+    }
+
+    .geo-line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-family: Arial, sans-serif;
+      font-size: 0.85rem;
+      color: var(--grey);
+      margin-bottom: 16px;
+    }
+
+    .geo-line .pin { font-size: 1.1rem; color: var(--red); }
+
+    .section-title {
+      font-size: 2.4rem;
+      color: var(--red);
+      font-style: italic;
+      margin-bottom: 30px;
+    }
+
+    /* ── AI ASSISTANCE ──────────────────────────────────────────────────
+       This part was made with the help of AI.
+       I asked the AI how to create a 3-column grid layout using CSS Grid
+       so that the show posters are automatically distributed into 3 equal
+       columns, with consistent spacing (gap) between them.
+       ─────────────────────────────────────────────────────────────────── */
+    .shows-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px 50px;
+    }
+
+    .show-card {
+      cursor: pointer;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .show-card:hover { transform: translateY(-4px); }
+
+    .show-card img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      display: block;
+    }
+
+    .show-card .show-name {
+      margin-top: 8px;
+      font-size: 0.9rem;
+      font-family: Arial, sans-serif;
+      color: var(--dark);
+      font-weight: bold;
+    }
+
+    /* ══════════════════════════════
+       PAGE DÉTAIL SPECTACLE
+    ══════════════════════════════ */
+    #view-detail {
+      max-width: 860px;
+      margin: 30px auto;
+      padding: 0 20px 50px;
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+      font-size: 0.9rem;
+      color: var(--grey);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0;
+    }
+
+    .back-btn:hover { color: var(--red); }
+
+    .detail-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 28px;
+      display: flex;
+      gap: 28px;
+    }
+
+    .detail-img {
+      width: 180px;
+      flex-shrink: 0;
+    }
+
+    .detail-img img {
+      width: 100%;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+
+    .detail-info { flex: 1; }
+
+    .detail-category {
+      font-family: Arial, sans-serif;
+      font-size: 0.8rem;
+      color: var(--grey);
+      margin-bottom: 4px;
+    }
+
+    .detail-title {
+      font-size: 1.6rem;
+      color: var(--dark);
+      margin-bottom: 12px;
+    }
+
+    .detail-desc {
+      font-style: italic;
+      font-size: 0.95rem;
+      color: #444;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .detail-theatre {
+      font-family: Arial, sans-serif;
+      font-size: 0.95rem;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .detail-dates {
+      font-family: Arial, sans-serif;
+      font-size: 0.85rem;
+      color: var(--grey);
+      margin-bottom: 6px;
+    }
+
+    .detail-price {
+      font-family: Arial, sans-serif;
+      font-size: 0.95rem;
+      color: var(--dark);
+      margin-bottom: 20px;
+    }
+
+    .detail-price strong { color: var(--red); font-size: 1.1rem; }
+
+    .star-rating { color: #f4a300; font-size: 1.1rem; margin-bottom: 16px; }
+
+    .btn-buy {
+      background: var(--red);
+      color: white;
+      border: none;
+      padding: 11px 28px;
+      font-family: Arial, sans-serif;
+      font-size: 0.95rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-buy:hover { background: #c0392b; }
+
+    /* ══════════════════════════════
+       PAGE CALENDRIER
+    ══════════════════════════════ */
+    #view-calendar {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 0 20px 50px;
+    }
+
+    .calendar-back {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+      font-size: 0.9rem;
+      color: var(--grey);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0;
+    }
+
+    .calendar-back:hover { color: var(--red); }
+
+    .calendar-box {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 28px;
+    }
+
+    .cal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 20px;
+    }
+
+    .cal-month {
+      font-size: 2rem;
+      color: var(--red);
+      font-weight: bold;
+    }
+
+    .cal-year {
+      font-size: 1.4rem;
+      color: var(--dark);
+    }
+
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      text-align: center;
+    }
+
+    .cal-grid .day-name {
+      font-family: Arial, sans-serif;
+      font-size: 0.78rem;
+      font-weight: bold;
+      color: var(--grey);
+      padding: 6px 0;
+    }
+
+    .cal-grid .day-name.sun { color: var(--red); }
+
+    .cal-grid .day {
+      font-family: Arial, sans-serif;
+      font-size: 0.88rem;
+      padding: 7px 4px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .cal-grid .day:hover { background: #f0f0f0; }
+    .cal-grid .day.empty { cursor: default; }
+    .cal-grid .day.sunday { color: var(--red); }
+    .cal-grid .day.today {
+      background: var(--dark);
+      color: white;
+      border-radius: 50%;
+      font-weight: bold;
+    }
+    .cal-grid .day.has-show {
+      border-bottom: 2px solid var(--red);
+    }
+
+    /* ══════════════════════════════
+       PAGE PANIER
+    ══════════════════════════════ */
+    #view-cart {
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 0 20px 50px;
+    }
+
+    .cart-back {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+      font-size: 0.9rem;
+      color: var(--grey);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0;
+    }
+    .cart-back:hover { color: var(--red); }
+
+    .cart-title {
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+    }
+
+    .cart-empty {
+      font-family: Arial, sans-serif;
+      color: var(--grey);
+      text-align: center;
+      padding: 40px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+
+    .cart-item {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .cart-item img {
+      width: 60px;
+      border-radius: 3px;
+    }
+
+    .cart-item-info { flex: 1; font-family: Arial, sans-serif; }
+    .cart-item-name { font-weight: bold; font-size: 0.95rem; }
+    .cart-item-sub { font-size: 0.8rem; color: var(--grey); margin-top: 2px; }
+
+    .cart-item-price {
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      color: var(--red);
+    }
+
+    .cart-item-remove {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: var(--grey);
+    }
+    .cart-item-remove:hover { color: var(--red); }
+
+    .cart-total {
+      text-align: right;
+      font-family: Arial, sans-serif;
+      font-size: 1rem;
+      margin-top: 16px;
+    }
+
+    .cart-total strong { font-size: 1.2rem; color: var(--red); }
+
+    /* Badge panier */
+    .cart-badge {
+      background: var(--red);
+      color: white;
+      border-radius: 50%;
+      font-size: 0.65rem;
+      width: 16px;
+      height: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 2px;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Notification ajout panier */
+    #toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--dark);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-family: Arial, sans-serif;
+      font-size: 0.9rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    #toast.show { opacity: 1; }
+
+  </style>
 </head>
 <body>
 
-  <!-- ══════════════ NAVBAR ══════════════ -->
-  <nav>
-    <a class="nav-logo" href="index.html">🎭 London Theatre</a>
-    <ul class="nav-links">
-      <li><a href="index.html">🔍 Rechercher</a></li>
-      <li><a href="#">📅 Calendrier</a></li>
-      <li><a href="#">🛒 Panier</a></li>
-      <li><a href="#">👤 Mon compte</a></li>
-    </ul>
-    <div class="nav-lang">
-      <span class="active-lang">FR</span>
-      <span>CN</span>
-    </div>
-  </nav>
+<!-- ══════════════ NAVBAR ══════════════ -->
+<nav>
+  <div class="nav-logo" onclick="showView('home')">🎭 London Theatre</div>
+  <ul class="nav-links">
+    <li onclick="showView('home')"><span class="icon">🔍</span> Rechercher</li>
+    <li onclick="showView('calendar')"><span class="icon">📅</span> Calendrier</li>
+    <li onclick="showView('cart')"><span class="icon">🛒</span> Panier <span class="cart-badge" id="cart-count">0</span></li>
+    <li><span class="icon">👤</span> Mon compte</li>
+  </ul>
+  <div class="nav-lang">
+    <span class="active-lang">FR</span>
+    <span>CN</span>
+  </div>
+</nav>
 
-  <!-- ══════════════ HÉRO ══════════════ -->
+<!-- ══════════════ VUE ACCUEIL ══════════════ -->
+<div id="view-home" class="view active">
+
   <div class="hero">
     <div class="geo-line">
       <span class="pin">📍</span>
@@ -32,64 +507,291 @@
     <h1 class="section-title">À l'affiche :</h1>
   </div>
 
-  <!-- ══════════════ GRILLE DES SPECTACLES ══════════════ -->
-  <div class="shows-grid">
-
-    <!-- Spectacle 1 -->
-    <a class="show-card" href="#">
-      <img
-        src="https://makerslab.em-lyon.com/dww/data/shows/the-play-that-goes-wrong.jpg"
-        alt="The Play That Goes Wrong"
-      />
-      <div class="show-name">The Play That Goes Wrong</div>
-    </a>
-
-    <!-- Spectacle 2 -->
-    <a class="show-card" href="#">
-      <img
-        src="https://makerslab.em-lyon.com/dww/data/shows/pride-and-prejudice-sort-of.jpg"
-        alt="Pride and Prejudice* (sort of)"
-      />
-      <div class="show-name">Pride and Prejudice* (sort of)</div>
-    </a>
-
-    <!-- Spectacle 3 -->
-    <a class="show-card" href="#">
-      <img
-        src="https://makerslab.em-lyon.com/dww/data/shows/wicked.jpg"
-        alt="Wicked"
-      />
-      <div class="show-name">Wicked</div>
-    </a>
-
-    <!-- Spectacle 4 -->
-    <a class="show-card" href="#">
-      <img
-        src="https://makerslab.em-lyon.com/dww/data/shows/dear-evan-hansen.jpg"
-        alt="Dear Evan Hansen"
-      />
-      <div class="show-name">Dear Evan Hansen</div>
-    </a>
-
-    <!-- Spectacle 5 -->
-    <a class="show-card" href="#">
-      <img
-        src="https://makerslab.em-lyon.com/dww/data/shows/the-mirror-and-the-light.jpg"
-        alt="The Mirror and the Light"
-      />
-      <div class="show-name">The Mirror and the Light</div>
-    </a>
-
-    <!-- Spectacle 6 -->
-    <a class="show-card" href="#">
-      <img
-        src="https://makerslab.em-lyon.com/dww/data/shows/oleanna.jpg"
-        alt="Oleanna"
-      />
-      <div class="show-name">Oleanna</div>
-    </a>
-
+  <div class="shows-grid" id="shows-grid">
+    <!-- Cartes générées par JS -->
   </div>
 
+</div>
+
+<!-- ══════════════ VUE DÉTAIL ══════════════ -->
+<div id="view-detail" class="view">
+  <button class="back-btn" onclick="showView('home')">← Retour</button>
+  <div class="detail-card">
+    <div class="detail-img">
+      <img id="d-img" src="" alt="" />
+    </div>
+    <div class="detail-info">
+      <div class="detail-category" id="d-category"></div>
+      <h2 class="detail-title" id="d-title"></h2>
+      <p class="detail-desc" id="d-desc"></p>
+      <div class="detail-theatre" id="d-theatre"></div>
+      <div class="detail-dates" id="d-dates"></div>
+      <div class="detail-price" id="d-price"></div>
+      <div class="star-rating">★★★★½</div>
+      <button class="btn-buy" onclick="addToCart()">Ajouter au panier</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ VUE CALENDRIER ══════════════ -->
+<div id="view-calendar" class="view">
+  <button class="calendar-back" onclick="showView('home')">← Retour</button>
+  <div class="calendar-box">
+    <div class="cal-header">
+      <span class="cal-month">March</span>
+      <span class="cal-year">2026</span>
+    </div>
+    <div class="cal-grid" id="cal-grid">
+      <!-- généré par JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ VUE PANIER ══════════════ -->
+<div id="view-cart" class="view">
+  <button class="cart-back" onclick="showView('home')">← Retour</button>
+  <h2 class="cart-title">Mon panier</h2>
+  <div id="cart-content"></div>
+</div>
+
+<!-- Toast notification -->
+<div id="toast"></div>
+
+<!-- ══════════════ JAVASCRIPT ══════════════ -->
+<script>
+  // ── Données spectacles ──
+  const shows = [
+    {
+      id: 1,
+      title: "The Play That Goes Wrong",
+      category: "Comedies",
+      desc: "Putting Mischief Theatre firmly on the map, The Play That Goes Wrong continues to leave audiences in fits of giggles at the Duchess Theatre.",
+      theatre: "Duchess Theatre",
+      dates: "From Fri Nov 26 2021 to Sun Jan 30 2022",
+      price: 59.00,
+      tickets: 144,
+      img: "https://makerslab.em-lyon.com/dww/data/shows/the-play-that-goes-wrong.jpg"
+    },
+    {
+      id: 2,
+      title: "Pride and Prejudice* (sort of)",
+      category: "Comedies",
+      desc: "It's a truth universally acknowledged that a Jane Austen novel must be adapted - and this time, 30 years of pop hits and an irreverent all-female cast bring a bold new Pride and Prejudice to the Criterion Theatre!",
+      theatre: "Criterion Theatre",
+      dates: "From Sun Nov 28 2021 to Mon Feb 14 2022",
+      price: 59.00,
+      tickets: 291,
+      img: "https://makerslab.em-lyon.com/dww/data/shows/pride-and-prejudice-sort-of.jpg"
+    },
+    {
+      id: 3,
+      title: "Wicked",
+      category: "Musicals",
+      desc: "Since opening on Broadway in 2003, Wicked has taken the world of musical theatre by storm.",
+      theatre: "Apollo Victoria Theatre",
+      dates: "From Mon Mar 14 2022 to Tue May 31 2022",
+      price: 29.00,
+      tickets: 249,
+      img: "https://makerslab.em-lyon.com/dww/data/shows/wicked.jpg"
+    },
+    {
+      id: 4,
+      title: "Dear Evan Hansen",
+      category: "Musicals",
+      desc: "The smash-hit Broadway musical Dear Evan Hansen, from the writers of La La Land and The Greatest Showman, transferred to London's Noel Coward Theatre in November 2019.",
+      theatre: "Noel Coward Theatre",
+      dates: "From Thu May 19 2022 to Sat Jul 23 2022",
+      price: 49.00,
+      tickets: 62,
+      img: "https://makerslab.em-lyon.com/dww/data/shows/dear-evan-hansen.jpg"
+    },
+    {
+      id: 5,
+      title: "The Mirror and the Light",
+      category: "Plays",
+      desc: "Show of the Week - Special prices available.",
+      theatre: "Gielgud Theatre",
+      dates: "From Sun Dec 19 2021 to Sun Jan 23 2022",
+      price: 59.00,
+      tickets: 198,
+      img: "https://makerslab.em-lyon.com/dww/data/shows/the-mirror-and-the-light.jpg"
+    },
+    {
+      id: 6,
+      title: "Oleanna",
+      category: "Plays",
+      desc: "David Mamet's Oleanna is in London in 2021. Oleanna is at the Arts Theatre from July 2021.",
+      theatre: "Arts Theatre",
+      dates: "From Fri Aug 27 2021 to Sat Oct 23 2021",
+      price: 49.00,
+      tickets: 329,
+      img: "https://makerslab.em-lyon.com/dww/data/shows/oleanna.jpg"
+    }
+  ];
+
+  // ── Panier ──
+  let cart = [];
+  let currentShow = null;
+
+  /* ── AI ASSISTANCE ────────────────────────────────────────────────────
+     This part was made with the help of AI.
+     I asked the AI how to show and hide different sections of a single
+     HTML page to simulate navigation between pages (home, detail, calendar,
+     cart) without reloading. The AI suggested using a CSS class "active"
+     and toggling it with JavaScript by selecting all .view elements and
+     removing the class before adding it to the target section only.
+     ─────────────────────────────────────────────────────────────────── */
+  function showView(name) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + name).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  // ── Afficher le détail d'un spectacle ──
+  function openShow(id) {
+    const show = shows.find(s => s.id === id);
+    currentShow = show;
+    document.getElementById('d-img').src = show.img;
+    document.getElementById('d-img').alt = show.title;
+    document.getElementById('d-category').textContent = 'Category: ' + show.category;
+    document.getElementById('d-title').textContent = show.title;
+    document.getElementById('d-desc').textContent = show.desc;
+    document.getElementById('d-theatre').textContent = show.theatre;
+    document.getElementById('d-dates').textContent = show.dates;
+    document.getElementById('d-price').innerHTML =
+      '<strong>$' + show.price.toFixed(2) + '</strong> (' + show.tickets + ' tickets remaining)';
+    showView('detail');
+  }
+
+  // ── Ajouter au panier ──
+  function addToCart() {
+    if (!currentShow) return;
+    cart.push({ ...currentShow });
+    updateCartCount();
+    showToast(currentShow.title + ' ajouté au panier !');
+  }
+
+  function updateCartCount() {
+    document.getElementById('cart-count').textContent = cart.length;
+  }
+
+  function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCartCount();
+    renderCart();
+  }
+
+  /* ── AI ASSISTANCE ────────────────────────────────────────────────────
+     This part was made with the help of AI.
+     I asked the AI how to dynamically build and display an HTML list from
+     a JavaScript array (the cart). The AI showed me how to use forEach to
+     loop through each item, build an HTML string using template literals
+     (backticks with ${} placeholders), calculate the total price, and then
+     inject the result into the page using innerHTML.
+     ─────────────────────────────────────────────────────────────────── */
+  function renderCart() {
+    const el = document.getElementById('cart-content');
+    if (cart.length === 0) {
+      el.innerHTML = '<div class="cart-empty">Votre panier est vide.</div>';
+      return;
+    }
+    let total = 0;
+    let html = '';
+    cart.forEach((item, i) => {
+      total += item.price;
+      html += `
+        <div class="cart-item">
+          <img src="${item.img}" alt="${item.title}" />
+          <div class="cart-item-info">
+            <div class="cart-item-name">${item.title}</div>
+            <div class="cart-item-sub">${item.theatre} — ${item.dates}</div>
+          </div>
+          <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+          <button class="cart-item-remove" onclick="removeFromCart(${i})">✕</button>
+        </div>`;
+    });
+    html += `<div class="cart-total">Total : <strong>$${total.toFixed(2)}</strong></div>`;
+    el.innerHTML = html;
+  }
+
+  /* ── AI ASSISTANCE ────────────────────────────────────────────────────
+     This part was made with the help of AI.
+     I asked the AI how to show a small temporary notification message
+     when a user adds a show to the cart. The AI suggested creating a
+     fixed <div> at the bottom of the screen, making it appear by adding
+     a CSS class, then using setTimeout() to automatically remove that
+     class after 2.5 seconds so the message fades away on its own.
+     ─────────────────────────────────────────────────────────────────── */
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  // ── Générer la grille de spectacles ──
+  function renderShows() {
+    const grid = document.getElementById('shows-grid');
+    grid.innerHTML = shows.map(show => `
+      <div class="show-card" onclick="openShow(${show.id})">
+        <img src="${show.img}" alt="${show.title}" />
+        <div class="show-name">${show.title}</div>
+      </div>
+    `).join('');
+  }
+
+  // ── Générer le calendrier Mars 2026 ──
+  function renderCalendar() {
+    const grid = document.getElementById('cal-grid');
+    const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    // Jours avec spectacles (exemple)
+    const showDays = [1, 7, 14, 19, 21, 24, 28];
+    const today = 24; // 24 mars 2026
+
+    let html = dayNames.map((d,i) =>
+      `<div class="day-name${i===0?' sun':''}">${d}</div>`
+    ).join('');
+
+    // 1er mars 2026 = dimanche (index 0)
+    const firstDay = 0;
+    const totalDays = 31;
+
+    for (let i = 0; i < firstDay; i++) {
+      html += `<div class="day empty"></div>`;
+    }
+    for (let d = 1; d <= totalDays; d++) {
+      const dayIndex = (firstDay + d - 1) % 7;
+      const isSun = dayIndex === 0;
+      const isToday = d === today;
+      const hasShow = showDays.includes(d);
+      let cls = 'day';
+      if (isSun) cls += ' sunday';
+      if (isToday) cls += ' today';
+      if (hasShow && !isToday) cls += ' has-show';
+      html += `<div class="${cls}">${d}</div>`;
+    }
+    grid.innerHTML = html;
+  }
+
+  // ── Intercepter le clic sur "Panier" dans la navbar ──
+  // (déjà géré dans le HTML via onclick, on surcharge pour renderCart)
+  const origShowView = showView;
+  window.showViewCart = function() {
+    renderCart();
+    origShowView('cart');
+  };
+
+  // Remplacer le onclick du bouton panier
+  document.querySelector('.nav-links').addEventListener('click', function(e) {
+    const li = e.target.closest('li');
+    if (li && li.textContent.includes('Panier')) {
+      renderCart();
+    }
+  });
+
+  // ── Init ──
+  renderShows();
+  renderCalendar();
+</script>
 </body>
 </html>

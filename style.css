@@ -1,14 +1,8 @@
-/* ── Reset général ── */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* ── Reset & variables ── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 /* ── AI ASSISTANCE ──────────────────────────────────────────────────
-   This part was made with the help of AI.
-   I asked the AI to explain how to define CSS variables (also called
-   custom properties) so that I could reuse the same colors everywhere
+   This part was made with the help of AI. so that I could reuse the same colors everywhere
    in the stylesheet without repeating the hex codes each time.
    ─────────────────────────────────────────────────────────────────── */
 :root {
@@ -24,6 +18,10 @@ body {
   background: var(--light);
   color: var(--dark);
 }
+
+/* ── Views (show/hide) ── */
+.view { display: none; }
+.view.active { display: block; }
 
 /* ══════════════════════════════
    NAVBAR
@@ -45,8 +43,8 @@ nav {
   font-size: 1.1rem;
   font-weight: bold;
   color: var(--dark);
+  cursor: pointer;
   letter-spacing: 1px;
-  text-decoration: none;
 }
 
 .nav-links {
@@ -56,20 +54,20 @@ nav {
   list-style: none;
 }
 
-.nav-links li a {
+.nav-links li {
   display: flex;
   align-items: center;
   gap: 6px;
   font-family: Arial, sans-serif;
   font-size: 0.85rem;
+  cursor: pointer;
   color: var(--dark);
-  text-decoration: none;
   transition: color 0.2s;
 }
 
-.nav-links li a:hover {
-  color: var(--red);
-}
+.nav-links li:hover { color: var(--red); }
+
+.nav-links .icon { font-size: 1rem; }
 
 .nav-lang {
   display: flex;
@@ -90,7 +88,7 @@ nav {
 }
 
 /* ══════════════════════════════
-   SECTION HÉRO
+   PAGE ACCUEIL
 ══════════════════════════════ */
 .hero {
   text-align: center;
@@ -108,10 +106,7 @@ nav {
   margin-bottom: 16px;
 }
 
-.geo-line .pin {
-  font-size: 1.1rem;
-  color: var(--red);
-}
+.geo-line .pin { font-size: 1.1rem; color: var(--red); }
 
 .section-title {
   font-size: 2.4rem;
@@ -119,10 +114,6 @@ nav {
   font-style: italic;
   margin-bottom: 30px;
 }
-
-/* ══════════════════════════════
-   GRILLE DES SPECTACLES
-══════════════════════════════ */
 
 /* ── AI ASSISTANCE ──────────────────────────────────────────────────
    This part was made with the help of AI.
@@ -140,20 +131,16 @@ nav {
 }
 
 .show-card {
+  cursor: pointer;
   text-align: center;
-  text-decoration: none;
-  color: var(--dark);
-  display: block;
   transition: transform 0.2s;
 }
 
-.show-card:hover {
-  transform: translateY(-4px);
-}
+.show-card:hover { transform: translateY(-4px); }
 
 .show-card img {
   width: 100%;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 3/4;
   object-fit: cover;
   border: 1px solid var(--border);
   border-radius: 4px;
@@ -164,6 +151,319 @@ nav {
   margin-top: 8px;
   font-size: 0.9rem;
   font-family: Arial, sans-serif;
+  color: var(--dark);
   font-weight: bold;
+}
+
+/* ══════════════════════════════
+   PAGE DÉTAIL SPECTACLE
+══════════════════════════════ */
+#view-detail {
+  max-width: 860px;
+  margin: 30px auto;
+  padding: 0 20px 50px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  font-size: 0.9rem;
+  color: var(--grey);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+}
+
+.back-btn:hover { color: var(--red); }
+
+.detail-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 28px;
+  display: flex;
+  gap: 28px;
+}
+
+.detail-img {
+  width: 180px;
+  flex-shrink: 0;
+}
+
+.detail-img img {
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+.detail-info { flex: 1; }
+
+.detail-category {
+  font-family: Arial, sans-serif;
+  font-size: 0.8rem;
+  color: var(--grey);
+  margin-bottom: 4px;
+}
+
+.detail-title {
+  font-size: 1.6rem;
+  color: var(--dark);
+  margin-bottom: 12px;
+}
+
+.detail-desc {
+  font-style: italic;
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.detail-theatre {
+  font-family: Arial, sans-serif;
+  font-size: 0.95rem;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.detail-dates {
+  font-family: Arial, sans-serif;
+  font-size: 0.85rem;
+  color: var(--grey);
+  margin-bottom: 6px;
+}
+
+.detail-price {
+  font-family: Arial, sans-serif;
+  font-size: 0.95rem;
+  color: var(--dark);
+  margin-bottom: 20px;
+}
+
+.detail-price strong { color: var(--red); font-size: 1.1rem; }
+
+.star-rating { color: #f4a300; font-size: 1.1rem; margin-bottom: 16px; }
+
+.btn-buy {
+  background: var(--red);
+  color: white;
+  border: none;
+  padding: 11px 28px;
+  font-family: Arial, sans-serif;
+  font-size: 0.95rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-buy:hover { background: #c0392b; }
+
+/* ══════════════════════════════
+   PAGE CALENDRIER
+══════════════════════════════ */
+#view-calendar {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 0 20px 50px;
+}
+
+.calendar-back {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  font-size: 0.9rem;
+  color: var(--grey);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+}
+
+.calendar-back:hover { color: var(--red); }
+
+.calendar-box {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 28px;
+}
+
+.cal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 20px;
+}
+
+.cal-month {
+  font-size: 2rem;
+  color: var(--red);
+  font-weight: bold;
+}
+
+.cal-year {
+  font-size: 1.4rem;
   color: var(--dark);
 }
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+}
+
+.cal-grid .day-name {
+  font-family: Arial, sans-serif;
+  font-size: 0.78rem;
+  font-weight: bold;
+  color: var(--grey);
+  padding: 6px 0;
+}
+
+.cal-grid .day-name.sun { color: var(--red); }
+
+.cal-grid .day {
+  font-family: Arial, sans-serif;
+  font-size: 0.88rem;
+  padding: 7px 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.cal-grid .day:hover { background: #f0f0f0; }
+.cal-grid .day.empty { cursor: default; }
+.cal-grid .day.sunday { color: var(--red); }
+.cal-grid .day.today {
+  background: var(--dark);
+  color: white;
+  border-radius: 50%;
+  font-weight: bold;
+}
+.cal-grid .day.has-show {
+  border-bottom: 2px solid var(--red);
+}
+
+/* ══════════════════════════════
+   PAGE PANIER
+══════════════════════════════ */
+#view-cart {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 0 20px 50px;
+}
+
+.cart-back {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  font-size: 0.9rem;
+  color: var(--grey);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+}
+.cart-back:hover { color: var(--red); }
+
+.cart-title {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+}
+
+.cart-empty {
+  font-family: Arial, sans-serif;
+  color: var(--grey);
+  text-align: center;
+  padding: 40px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.cart-item {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.cart-item img {
+  width: 60px;
+  border-radius: 3px;
+}
+
+.cart-item-info { flex: 1; font-family: Arial, sans-serif; }
+.cart-item-name { font-weight: bold; font-size: 0.95rem; }
+.cart-item-sub { font-size: 0.8rem; color: var(--grey); margin-top: 2px; }
+
+.cart-item-price {
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  color: var(--red);
+}
+
+.cart-item-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: var(--grey);
+}
+.cart-item-remove:hover { color: var(--red); }
+
+.cart-total {
+  text-align: right;
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  margin-top: 16px;
+}
+
+.cart-total strong { font-size: 1.2rem; color: var(--red); }
+
+/* Badge panier */
+.cart-badge {
+  background: var(--red);
+  color: white;
+  border-radius: 50%;
+  font-size: 0.65rem;
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 2px;
+  font-family: Arial, sans-serif;
+}
+
+/* Notification ajout panier */
+#toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: var(--dark);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-family: Arial, sans-serif;
+  font-size: 0.9rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: 999;
+}
+
+#toast.show { opacity: 1; }
